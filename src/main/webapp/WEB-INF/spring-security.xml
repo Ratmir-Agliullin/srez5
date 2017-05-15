@@ -10,16 +10,16 @@
 
     <http use-expressions="true">
 
-        <intercept-url pattern="/userInfo" access="hasRole('ROLE_USER')"/>
-        <intercept-url pattern="/allUsers" access="hasRole('ROLE_ADMIN')"/>
-        <intercept-url pattern="/newUserAdd" access="permitAll"/>
-        <intercept-url pattern="/repeatLoginUser" access="permitAll"/>
-        <access-denied-handler error-page="/repeatLoginUser" />
+        <intercept-url pattern="/forUsers" access="hasRole('ROLE_USER')"/>
+        <intercept-url pattern="/forUsers" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/forAdmins" access="hasRole('ROLE_ADMIN')"/>
+
+        <access-denied-handler error-page="/error" />
         <form-login
                 login-processing-url="/j_spring_security_check"
                 login-page="/login"
                 authentication-success-handler-ref="customAuthenticationSuccessHandler"
-                authentication-failure-url="/newUserAdd"
+                authentication-failure-url="/error"
 
                 username-parameter="username"
                 password-parameter="password" />
@@ -34,7 +34,7 @@
 
             <user-service>
                 <user name="user" password="user" authorities="ROLE_USER" />
-                <user name="admin" password="admin" authorities="ROLE_USER" />
+                <user name="admin" password="admin" authorities="ROLE_ADMIN" />
             </user-service>
 
         </authentication-provider>
@@ -45,5 +45,5 @@
 
 
 
-    <beans:bean id="customAuthenticationSuccessHandler" class="main.services.CustomAuthenticationSuccessHandler"/>
+    <beans:bean id="customAuthenticationSuccessHandler" class="main.webapp.controllers.CustomAuthenticationSuccessHandler"/>
 </beans:beans>
